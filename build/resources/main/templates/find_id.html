@@ -1,16 +1,22 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>얼간뱅크</title>
     <link rel="stylesheet" type="text/css" href="/css/find_id.css">
 </head>
+
 <body>
 <div class="nav">
     <div class="factory_name">
-        <button type="button" class="factory_button" onclick="location.href='main.html'">얼간증권</button>
+        <button type="button" class="factory_button" onclick="location.href='list'">얼간증권</button>
     </div>
 </div>
+
+<script th:if="${flag}=='1'">
+    alert('입력하신 정보가 맞지 않습니다');
+</script>
+
 <div class="main">
     <div id="grid">
         <div class="left">
