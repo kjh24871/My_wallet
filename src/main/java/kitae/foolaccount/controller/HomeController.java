@@ -22,25 +22,45 @@ public class HomeController{
     }
 
     @GetMapping("/list")
-    public String list(Model model) throws IOException
-    {
+    public String list(Model model) throws IOException {
 
-//        Document doc = Jsoup.connect("https://finance.naver.com/sise/").get();
-//        Elements name = doc.select("ul[class=lst_pop]").select("a");
-//        Elements price = doc.select("#popularItemList > li:nth-child > span");
-//        Elements statement = doc.select("#popularItemList > li:nth-child > img");
-//        ArrayList<String> stock = new ArrayList<>();
-//
-//        for (int i=0; i< name.size(); i++){
-//            System.out.println(name);
-//            System.out.println(price);
-//            System.out.println(statement);
-//        }
+        Document doc = Jsoup.connect("https://finance.naver.com/sise/").get();
+        Elements name = doc.select("ul[class=lst_pop]").select("a");
+        Elements price = doc.select("ul[class=lst_pop]").select("span");
 
-//    public void info(){
-//        String name;
-//        String price;
-//        String statement;
+        ArrayList<String> stock = new ArrayList<>();
+        ArrayList<String> stock_price = new ArrayList<>();
+        ArrayList<String> stock_statement = new ArrayList<>();
+
+        for (int i = 0; i < price.size(); i++) {
+            stock.add(price.get(i).text());
+        }
+
+        ArrayList<ListForm> Infolist = new ArrayList<>();
+
+        for(int i=0; i<stock.size(); i++)
+        {
+            if(i%2==0)
+                stock_price.add(stock.get(i));
+            else
+                stock_statement.add(stock.get(i));
+
+        }
+
+        for (int i=0; i<10; i++)
+        {
+            Infolist.add(new ListForm(name.get(i).text(), stock_price.get(i), stock_statement.get(i)));
+        }
+
+        System.out.println(name.text());
+        System.out.println(stock_price);
+        System.out.println(stock_statement);
+        model.addAttribute("Infolist",Infolist);
+
+
+        //코인정보 크롤링
+
+
         return "list";
     }
 }
