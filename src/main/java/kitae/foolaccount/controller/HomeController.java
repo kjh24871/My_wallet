@@ -1,9 +1,12 @@
 package kitae.foolaccount.controller;
 
+import kitae.foolaccount.FoolAccountApplication;
 import kitae.foolaccount.domain.Member;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import org.springframework.boot.SpringApplication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -52,15 +55,22 @@ public class HomeController{
             Infolist.add(new ListForm(name.get(i).text(), stock_price.get(i), stock_statement.get(i)));
         }
 
-        System.out.println(name.text());
-        System.out.println(stock_price);
-        System.out.println(stock_statement);
         model.addAttribute("Infolist",Infolist);
 
 
         //코인정보 크롤링
 
+        ArrayList<ListForm> coin_info = new ArrayList<>();
 
+        Document coin_page = Jsoup.connect("https://kr.investing.com/crypto/").get();
+        Elements coin_price = coin_page.select("td[class=price js-currency-price]");
+        Elements coin_name = coin_page.select("td[class=left bold elp name cryptoName first js-currency-name]");
+        Elements coin_statement = coin_page.select(".js-currency-change-24h ");
+
+        for (int i = 0; i < coin_price.size(); i++) {
+            coin_info.add(new ListForm(coin_name.get(i).text(), coin_price.get(i).text(), Character.toString(coin_statement.get(i).text().charAt(0))));
+        }
+        model.addAttribute("coin_information",coin_info);
         return "list";
     }
 }

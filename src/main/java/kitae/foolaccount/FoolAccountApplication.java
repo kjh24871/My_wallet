@@ -15,37 +15,21 @@ import java.util.ArrayList;
 @SpringBootApplication
 public class FoolAccountApplication {
 
-	public static void main(String[] args)throws IOException {
+	public static void main(String[] args) throws IOException {
 		SpringApplication.run(FoolAccountApplication.class, args);
 
-		Document doc = Jsoup.connect("https://finance.naver.com/sise/").get();
-		Elements name = doc.select("ul[class=lst_pop]").select("a");
-		Elements price = doc.select("ul[class=lst_pop]").select("span");
+		ArrayList<String> coin_info = new ArrayList<>();
 
-		ArrayList<String> stock = new ArrayList<>();
-		ArrayList<String> stock_price = new ArrayList<>();
-		ArrayList<String> stock_statement = new ArrayList<>();
+		Document coin_page = Jsoup.connect("https://kr.investing.com/crypto/").get();
+		Elements coin_price = coin_page.select("td[class=price js-currency-price]");
+		Elements coin_name = coin_page.select("td[class=left bold elp name cryptoName first js-currency-name]");
+		Elements coin_statement = coin_page.select(".js-currency-change-24h ");
 
-		for (int i = 0; i < price.size(); i++) {
-			stock.add(price.get(i).text());
+		for (int i = 0; i < coin_price.size(); i++) {
+			System.out.println(coin_price.get(i).text());
+			System.out.println(coin_name.get(i).text());
+			System.out.println(coin_statement.get(i).text());
 		}
-
-
-		ArrayList<ListForm> Infolist = new ArrayList<>();
-
-		for(int i=0; i<stock.size(); i++)
-		{
-			if(i%2==0)
-				stock_price.add(stock.get(i));
-			else
-				stock_statement.add(stock.get(i));
-
-		}
-		for (int i=0; i<10; i++)
-		{
-			Infolist.add(new ListForm(name.get(i).text(), stock_price.get(i), stock_statement.get(i)));
-		}
-
-		}
+	}
 }
 
