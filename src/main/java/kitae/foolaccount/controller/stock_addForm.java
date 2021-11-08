@@ -3,11 +3,20 @@ package kitae.foolaccount.controller;
 public class stock_addForm {
     private Long sequence;
     private String id;
+    private String buy;
     private String kind;
     private String company;
     private Long quantity;
     private Long average_price;
 
+
+    public String getBuy() {
+        return buy;
+    }
+
+    public void setBuy(String buy) {
+        this.buy = buy;
+    }
     public Long getSequence() {
         return sequence;
     }

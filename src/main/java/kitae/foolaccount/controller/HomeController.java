@@ -11,7 +11,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,8 +28,15 @@ public class HomeController{
         return "main";
     }
 
+
+    @GetMapping("/logout")
+    public String logoutMainGet(HttpSession session){
+        System.out.println("세션종료");
+        session.invalidate();
+        return "redirect:/list";
+    }
     @GetMapping("/list")
-    public String list(Model model) throws IOException {
+    public String list(Model model, HttpServletRequest request) throws IOException {
 
         Document doc = Jsoup.connect("https://finance.naver.com/sise/").get();
         Elements name = doc.select("ul[class=lst_pop]").select("a");
@@ -71,6 +82,18 @@ public class HomeController{
             coin_info.add(new ListForm(coin_name.get(i).text(), coin_price.get(i).text(), Character.toString(coin_statement.get(i).text().charAt(0))));
         }
         model.addAttribute("coin_information",coin_info);
+
+        // 세션
+        HttpSession session = request.getSession();
+        Member member = (Member)session.getAttribute("member");
+        if(member !=null) {
+            model.addAttribute("flag", "1");  // 로그인 성공
+            model.addAttribute("name", member.getName());
+            model.addAttribute("id", member.getId());
+        }
+        else
+            model.addAttribute("flag","0");
+
         return "list";
     }
 }

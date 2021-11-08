@@ -37,13 +37,7 @@ public class MemberController {
         member.setPhone(form.getPhone());
         memberService.join(member);
 
-//        System.out.println(form.getId());
-//        System.out.println(form.getPassword());
-//        System.out.println(form.getPassword_confirm_question());
-//        System.out.println(form.getPassword_confirm_question_answer());
-//        System.out.println(form.getName());
-//        System.out.println(form.getPhone());
-        return "redirect:/";
+        return "redirect:/list";
     }
 
 

@@ -13,6 +13,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -34,7 +37,7 @@ public class LoginController {
     }
 
     @PostMapping("/login")
-    public String memberLogin(MemberForm form, Model model) throws IOException
+    public String memberLogin(MemberForm form, Model model, HttpServletRequest request, HttpServletResponse response) throws IOException
     {
         Member member = new Member();
         member.setId(form.getId());
@@ -94,7 +97,13 @@ public class LoginController {
                     coin_info.add(new ListForm(coin_name.get(i).text(), coin_price.get(i).text(), Character.toString(coin_statement.get(i).text().charAt(0))));
                 }
                 model.addAttribute("coin_information",coin_info);
-                return "login_complete";
+
+                // 세션 구현
+                member.setName(find_member1.get().getName());
+                HttpSession session = request.getSession();
+                session.setAttribute("member", member);
+
+                return "redirect:/list";
 
             }
             else

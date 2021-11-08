@@ -2,12 +2,25 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>얼간뱅크</title>
-    <link rel="stylesheet" type="text/css" href="/css/mypage.css">
-    <meta http-equiv="refresh" content="1000">
+<title>얼간뱅크</title>
+<link rel="stylesheet" type="text/css" href="/css/mypage.css">
+<meta http-equiv="refresh" content="100">
 </head>
 <body>
 <div class="my_asset">
+    <div class="profit">
+        <div class="assetInfo">
+            <span th:text="|원금 : ${originalPrice}원 / |"></span>
+            <span th:text="| 자산가치 : ${nowPrice}원  |"></span>
+        </div>
+        <div class="assetProfitInfo">
+            <span th:text="|내 수익률 : |"></span>
+            <span class="up" th:if="${profit}>0" th:text="|+${profit}원(${percent}%)|"></span>
+            <span class="down" th:if="${profit}<0" th:text="|${profit}원(${percent}%)|"></span>
+            <span class="noChange" th:if="${profit}==0" th:text="|-${profit}원(${percent}%)|"></span><br>
+        </div>
+        <br>
+    </div>
     <table class="tb_asset">
         <thead>
         <tr>
@@ -18,17 +31,23 @@
         </tr>
         </thead>
         <tbody>
-        <tr th:each="stockAllList : ${stockList}">
-            <td th:text="${stockAllList.kind}"></td>
-            <td th:text="${stockAllList.company}"></td>
-            <td th:text="${stockAllList.quantity}"></td>
-            <td th:text="${stockAllList.average_price}"></td>
+        <tr th:each="noDuplicateAssetList : ${stockList}">
+            <td th:text="${noDuplicateAssetList.kind}"></td>
+            <td th:text="${noDuplicateAssetList.company}"></td>
+            <td th:text="${noDuplicateAssetList.quantity}"></td>
+            <td th:text="${noDuplicateAssetList.average_price}"></td>
         </tr>
         </tbody>
     </table>
-</div>
-<div class="plus">
-    <button type="button" target="_blank" class="plus_button" onclick="window.open('/stock_add', '자산 추가하기',  'width=200', 'height=150', 'top=20', 'left=50')">추가하기</button>
+    <div class="plus">
+        <button type="button" target="_blank" class="plus_button" onclick="window.open('/stock_add', '_blank',  'width=400', 'height=300', 'top=40', 'left=100')">추가하기</button>
+    </div>
 </div>
 </body>
 </html>
+<script>
+    function selling(){
+        var n;
+        n=prompt("몇 주를 판매하시겠습니까?? (숫자만 입력해주세요)", 0);
+    }
+</script>

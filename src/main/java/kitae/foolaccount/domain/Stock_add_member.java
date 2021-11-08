@@ -9,12 +9,21 @@ import javax.persistence.Id;
 public class Stock_add_member {
     @Id
     private Long sequence;
+    private String buy;
     private String id;
     private String kind;
     private String company;
     private Long quantity;
     private Long average_price;
 
+
+    public String getBuy() {
+        return buy;
+    }
+
+    public void setBuy(String buy) {
+        this.buy = buy;
+    }
     public Long getSequence() {
         return sequence;
     }

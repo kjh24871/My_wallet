@@ -21,11 +21,16 @@
                 <option value="stock">주식</option>
             </select>
         </div>
+        <div class = "choose_buy">
+            구매
+            <select class="buy" name="buy" onchange="">
+                <option value = "buy">구매</option>
+                <option value = "sell">판매</option>
+            </select>
+        </div>
         <div class="choose_asset_list">
             종목 선택하기<option></option>
-            <select id="list" class="company" name="company">
-
-            </select>
+            <select id="list" class="company" name="company"></select>
         </div>
         <div class="assetCount">
             수량
@@ -40,10 +45,10 @@
         </div>
     </form>
 </div>
-<script>
+<script th:inline="javascript">
     function categoryChange(e){
-        var coin_list=["비트코인","아튜브","ETH 이더리움","XRP 이더리움","클레이튼","1인치"];
-        var stock_list=["삼성","삼성SDI","카카오","NAVER","CJ CGV","엔씨소프트", "카카오게임즈"];
+        var coin_list=["비트코인","이더리움","코스모스","osmo"]
+        var stock_list=[[${stockNameCrawling}]];
         var target = document.getElementById("list")
 
         if(e.value =="coin") {var d = coin_list;}
